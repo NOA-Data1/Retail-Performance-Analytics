@@ -2,16 +2,16 @@
 
 ## Design direction
 
-The report uses a restrained blue visual system inspired by the supplied concept image. The design should feel operational and executive rather than decorative.
+The report uses a restrained light-petroleum visual system inspired by the supplied concept image. The design should feel operational and executive rather than decorative.
 
 Core colours:
 
-- Primary blue: `#1267E8`
-- Dark navy: `#121A30`
-- Secondary blue: `#2D7FF0`
+- Primary petroleum: `#2F7F8F`
+- Dark petroleum: `#164B57`
+- Secondary petroleum: `#78B8C2`
 - Positive green: `#169B62`
 - Warning amber: `#E59F24`
-- Light background: `#F7F9FC`
+- Light background: `#F4F9FA`
 - Card background: `#FFFFFF`
 - Border: `#DDE4EE`
 
@@ -47,7 +47,7 @@ Do not show “100% of total” beneath every KPI. It communicates no comparison
    - KPI or callout for UK sales share;
    - horizontal bar chart titled `Top international markets by sales`;
    - UK excluded from this chart and stated in the subtitle;
-   - no scroll bar in the default top-ten view.
+   - seven international markets shown without a scroll bar.
 
 3. Customer and product highlights
    - top five customers by sales;
@@ -60,7 +60,7 @@ Do not show “100% of total” beneath every KPI. It communicates no comparison
 - Month
 - Product classification
 
-Filters belong in a narrow top or left panel. They must not consume the full page width beneath the analysis.
+Filters belong in a compact strip beneath the analysis. They must remain visible without obscuring the charts.
 
 ## Page 2 — Customer & Product Analysis
 

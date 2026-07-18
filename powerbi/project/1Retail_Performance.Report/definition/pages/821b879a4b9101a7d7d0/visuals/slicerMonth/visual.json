@@ -3,9 +3,9 @@
   "name": "slicerMonth",
   "position": {
     "x": 640,
-    "y": 682,
+    "y": 666,
     "z": 23000,
-    "height": 40,
+    "height": 58,
     "width": 620,
     "tabOrder": 23000
   },
@@ -93,7 +93,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1267E8'"
+                      "Value": "'#2F7F8F'"
                     }
                   }
                 }
@@ -104,7 +104,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F7F9FC'"
+                      "Value": "'#F4F9FA'"
                     }
                   }
                 }

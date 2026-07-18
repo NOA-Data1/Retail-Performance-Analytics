@@ -42,10 +42,10 @@
                       "Entity": "Retail Sales"
                     }
                   },
-                  "Property": "Total Sales"
+                  "Property": "Sales (M)"
                 }
               },
-              "queryRef": "Retail Sales.Total Sales",
+              "queryRef": "Retail Sales.Sales (M)",
               "nativeQueryRef": "Total Sales"
             }
           ]
@@ -78,7 +78,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#1267E8'"
+                      "Value": "'#2F7F8F'"
                     }
                   }
                 }
@@ -91,8 +91,8 @@
         {
           "properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "labelDisplayUnits": {"expr": {"Literal": {"Value": "1000D"}}},
-            "labelPrecision": {"expr": {"Literal": {"Value": "0D"}}},
+            "labelDisplayUnits": {"expr": {"Literal": {"Value": "1D"}}},
+            "labelPrecision": {"expr": {"Literal": {"Value": "2D"}}},
             "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
             "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#121A30'"}}}}}
           }
@@ -327,7 +327,7 @@
                         }
                       }
                     ],
-                    "Top": 10
+                    "Top": 7
                   }
                 }
               },

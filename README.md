@@ -18,7 +18,7 @@ This project analyses the UCI Online Retail dataset with Python, SQL and Power B
 | Power BI executive overview | Complete |
 | Version-controlled PBIP project | Complete |
 | Customer, product and data-quality detail pages | Specified for the next report iteration |
-| Final Power BI Desktop refresh | Ready for desktop validation |
+| Final Power BI Desktop refresh | Complete |
 
 ## Executive result
 
