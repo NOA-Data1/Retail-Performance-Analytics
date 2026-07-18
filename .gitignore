@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Generated project data
+data/processed/*
+!data/processed/.gitkeep
+
+# Local operating-system files
+.DS_Store
