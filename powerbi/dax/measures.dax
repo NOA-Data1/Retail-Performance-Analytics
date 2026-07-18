@@ -1,0 +1,62 @@
+// Core executive measures
+
+Sales =
+SUM ( FactSales[LineSales] )
+
+Orders =
+DISTINCTCOUNT ( FactSales[InvoiceNo] )
+
+Identified Customers =
+CALCULATE (
+    DISTINCTCOUNT ( FactSales[CustomerID] ),
+    NOT ISBLANK ( FactSales[CustomerID] )
+)
+
+Products Sold =
+DISTINCTCOUNT ( FactSales[StockCode] )
+
+Average Order Value =
+DIVIDE ( [Sales], [Orders] )
+
+Units Sold =
+SUM ( FactSales[Quantity] )
+
+Sales UK =
+CALCULATE (
+    [Sales],
+    REMOVEFILTERS ( DimCountry ),
+    DimCountry[Country] = "United Kingdom"
+)
+
+UK Sales Share =
+DIVIDE (
+    [Sales UK],
+    CALCULATE ( [Sales], REMOVEFILTERS ( DimCountry[Country] ) )
+)
+
+Anonymous Sales =
+CALCULATE ( [Sales], ISBLANK ( FactSales[CustomerID] ) )
+
+Anonymous Sales Share =
+DIVIDE ( [Anonymous Sales], [Sales] )
+
+Sales Previous Month =
+CALCULATE ( [Sales], DATEADD ( DimDate[Date], -1, MONTH ) )
+
+Sales MoM Change =
+DIVIDE ( [Sales] - [Sales Previous Month], [Sales Previous Month] )
+
+Merchandise Sales =
+CALCULATE ( [Sales], DimProduct[ProductClass] = "Merchandise" )
+
+Order Penetration =
+DIVIDE (
+    DISTINCTCOUNT ( FactSales[InvoiceNo] ),
+    CALCULATE ( [Orders], REMOVEFILTERS ( DimProduct ) )
+)
+
+Selected Period =
+VAR StartDate = MIN ( DimDate[Date] )
+VAR EndDate = MAX ( DimDate[Date] )
+RETURN
+    FORMAT ( StartDate, "MMM yyyy" ) & " – " & FORMAT ( EndDate, "MMM yyyy" )

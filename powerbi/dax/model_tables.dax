@@ -1,0 +1,17 @@
+// Create this calculated table after loading FactSales.
+
+DimDate =
+VAR StartDate = DATE ( 2010, 12, 1 )
+VAR EndDate = DATE ( 2011, 12, 9 )
+RETURN
+    ADDCOLUMNS (
+        CALENDAR ( StartDate, EndDate ),
+        "Year", YEAR ( [Date] ),
+        "Month Number", MONTH ( [Date] ),
+        "Month", FORMAT ( [Date], "MMM" ),
+        "Month Start", DATE ( YEAR ( [Date] ), MONTH ( [Date] ), 1 ),
+        "Year Month", FORMAT ( [Date], "MMM yyyy" ),
+        "Year Month Sort", YEAR ( [Date] ) * 100 + MONTH ( [Date] ),
+        "Day of Week", FORMAT ( [Date], "ddd" ),
+        "Is Complete Month", EOMONTH ( [Date], 0 ) <= EndDate
+    )
