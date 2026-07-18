@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "iconSalesBg",
+  "position": {
+    "x": 196,
+    "y": 114,
+    "z": 12000,
+    "height": 38,
+    "width": 38,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "basicShape",
+    "objects": {
+      "fill": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1267E8'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "line": [
+        {
+          "properties": {}
+        }
+      ]
+    }
+  }
+}

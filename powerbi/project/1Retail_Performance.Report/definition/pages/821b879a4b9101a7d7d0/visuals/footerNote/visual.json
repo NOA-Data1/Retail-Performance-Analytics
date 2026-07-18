@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "footerNote",
+  "position": {
+    "x": 20,
+    "y": 730,
+    "z": 24000,
+    "height": 24,
+    "width": 1240,
+    "tabOrder": 24000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Retail Performance Analytics",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "'#94A3B8'",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "   ·   Source: UCI Online Retail dataset   ·   All monetary values in GBP (£)",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "'#94A3B8'"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

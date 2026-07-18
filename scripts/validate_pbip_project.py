@@ -1,0 +1,77 @@
+"""Run structural and portfolio-readiness checks on the Power BI Project."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PROJECT = ROOT / "powerbi" / "project"
+REPORT = PROJECT / "1Retail_Performance.Report"
+MODEL = PROJECT / "1Retail_Performance.SemanticModel"
+PAGE = REPORT / "definition" / "pages" / "821b879a4b9101a7d7d0"
+
+
+def main() -> None:
+    required = [
+        PROJECT / "1Retail_Performance.pbip",
+        REPORT / "definition.pbir",
+        REPORT / "definition" / "report.json",
+        PAGE / "page.json",
+        MODEL / "definition.pbism",
+        MODEL / "definition" / "model.tmdl",
+        MODEL / "definition" / "tables" / "Retail Sales.tmdl",
+    ]
+    missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
+    assert not missing, f"Missing PBIP files: {missing}"
+
+    for path in PROJECT.rglob("*.json"):
+        json.loads(path.read_text(encoding="utf-8"))
+
+    page = json.loads((PAGE / "page.json").read_text(encoding="utf-8"))
+    page_width = page["width"]
+    page_height = page["height"]
+    visuals = list((PAGE / "visuals").glob("*/visual.json"))
+    assert len(visuals) >= 20, "Executive page is missing expected visuals"
+
+    for path in visuals:
+        visual = json.loads(path.read_text(encoding="utf-8"))
+        position = visual["position"]
+        assert position["x"] >= 0 and position["y"] >= 0, path
+        assert position["x"] + position["width"] <= page_width, path
+        assert position["y"] + position["height"] <= page_height, path
+
+    public_text = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in PROJECT.rglob("*")
+        if path.is_file() and path.suffix.lower() in {".json", ".tmdl", ".pbip", ".pbir", ".pbism"}
+        and ".pbi" not in path.parts
+    )
+    forbidden = [
+        "C:\\Workspace",
+        "525.460 linhas",
+        "13 meses completos",
+        '"displayName": "Página 1"',
+        "Fonte: Online Retail",
+    ]
+    found = [term for term in forbidden if term in public_text]
+    assert not found, f"Non-portable or legacy public text found: {found}"
+
+    model = (MODEL / "definition" / "tables" / "Retail Sales.tmdl").read_text(
+        encoding="utf-8"
+    )
+    for required_term in [
+        "Web.Contents",
+        "ExactDuplicatesRemoved",
+        "CompletedSales",
+        "NOT ISBLANK('Retail Sales'[CustomerID])",
+        "REMOVEFILTERS('Retail Sales'[Country])",
+    ]:
+        assert required_term in model, f"Missing semantic-model rule: {required_term}"
+
+    print(f"PBIP validation passed: {len(visuals)} visuals within a {page_width}×{page_height} page")
+
+
+if __name__ == "__main__":
+    main()

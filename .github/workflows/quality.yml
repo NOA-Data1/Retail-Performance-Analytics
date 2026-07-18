@@ -29,3 +29,6 @@ jobs:
 
       - name: Reconcile executive metrics
         run: python scripts/validate_retail_metrics.py
+
+      - name: Validate Power BI Project structure
+        run: python scripts/validate_pbip_project.py

@@ -1,0 +1,4 @@
+relationship da0493be-1f4c-4c6f-994a-54ca0461160e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Retail Sales'.InvoiceDate
+	toColumn: LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8.Date

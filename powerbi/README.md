@@ -9,8 +9,9 @@ This folder contains the versioned assets required to rebuild and validate the P
 - `dax/model_tables.dax` creates the marked date table.
 - `dax/measures.dax` contains the reconciled report measures.
 - `theme/retail-performance-theme.json` applies the approved visual system.
+- `project/1Retail_Performance.pbip` opens the complete version-controlled report.
 
-Create a text parameter named `SourceFilePath` containing the local path to `Online Retail.xlsx`, then paste each Power Query script into a query with the matching name. Create `FactSales` before the dimension queries because they reference it.
+The standalone Power Query scripts are retained for rebuilding the documented star schema from scratch. In that workflow, create a text parameter named `SourceFilePath`, then create `FactSales` before the dimension queries because they reference it. The complete PBIP project uses the public workbook in this repository and does not depend on a local Windows path.
 
 ## Available assets
 
@@ -20,17 +21,17 @@ Create a text parameter named `SourceFilePath` containing the local path to `Onl
 - `../docs/DASHBOARD_SPECIFICATION.md` — page layout and interaction rules.
 - `../docs/METRIC_DEFINITIONS.md` — KPI contract and expected values.
 
-## PBIP requirement
+## Open the report
 
-A `.pbip` file is only the project pointer. A complete Power BI Project must include the sibling report and semantic-model folders, normally similar to:
+Open this file in Power BI Desktop:
 
 ```text
-Retail_Performance.pbip
-Retail_Performance.Report/
-Retail_Performance.SemanticModel/
+powerbi/project/1Retail_Performance.pbip
 ```
 
-The report cannot be edited or versioned from the pointer alone. Export the report using **File → Save as → Power BI Project (.pbip)** and provide the complete containing folder.
+The sibling report and semantic-model folders are included. On the first refresh, Power BI may request credentials for the public GitHub source. Select **Anonymous** access. The model downloads the original UCI workbook stored in this repository and applies the documented cleaning rules in Power Query.
+
+After refresh, confirm the six executive values in `docs/METRIC_DEFINITIONS.md` before publishing or exporting the report.
 
 ## Build sequence
 
@@ -41,4 +42,4 @@ The report cannot be edited or versioned from the pointer alone. Export the repo
 5. Add the DAX measures.
 6. Build the three report pages in the documented order.
 7. Validate filters, partial-period labels and market/product scope.
-8. Save the complete PBIP folder to this repository.
+8. Refresh and save the complete PBIP project.

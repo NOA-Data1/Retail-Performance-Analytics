@@ -4,7 +4,7 @@
 
 This project analyses the UCI Online Retail dataset with Python, SQL and Power BI. The work covers source validation, business-led cleaning, KPI reconciliation, customer and product analysis, dimensional modelling and dashboard design.
 
-> The Power BI report is being rebuilt from a documented specification. Design reference images are not presented as final analytical output; every published KPI must reconcile to the cleaned dataset.
+> The version-controlled Power BI Project is included in the repository. Design reference images are not presented as analytical output; every published KPI must reconcile to the cleaned dataset.
 
 ## Project status
 
@@ -15,8 +15,10 @@ This project analyses the UCI Online Retail dataset with Python, SQL and Power B
 | Python business analysis | Complete |
 | SQL reconciliation | Complete |
 | KPI and semantic-model specification | Complete |
-| Power BI visual rebuild | In progress |
-| Final report validation | Pending complete PBIP project folder |
+| Power BI executive overview | Complete |
+| Version-controlled PBIP project | Complete |
+| Customer, product and data-quality detail pages | Specified for the next report iteration |
+| Final Power BI Desktop refresh | Ready for desktop validation |
 
 ## Executive result
 
@@ -104,6 +106,7 @@ Retail-Performance-Analytics/
 ├── notebooks/                # Data understanding, cleaning, analysis and SQL
 ├── powerbi/
 │   ├── dax/                  # Versioned measures
+│   ├── project/              # Complete PBIP report and semantic model
 │   └── theme/                # Report theme
 ├── scripts/                  # Reproducible validation and documentation assets
 └── tests/                    # Metric and cleaning-rule checks
