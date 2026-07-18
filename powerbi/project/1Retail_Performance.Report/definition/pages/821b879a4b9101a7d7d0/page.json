@@ -15,6 +15,17 @@
                 "Value": "0D"
               }
             }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F4F9FA'"
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -35,8 +35,11 @@ def main() -> None:
     visuals = list((PAGE / "visuals").glob("*/visual.json"))
     assert len(visuals) >= 20, "Executive page is missing expected visuals"
 
+    visual_definitions = {}
+
     for path in visuals:
         visual = json.loads(path.read_text(encoding="utf-8"))
+        visual_definitions[visual["name"]] = visual
         position = visual["position"]
         assert position["x"] >= 0 and position["y"] >= 0, path
         assert position["x"] + position["width"] <= page_width, path
@@ -67,8 +70,24 @@ def main() -> None:
         "CompletedSales",
         "NOT ISBLANK('Retail Sales'[CustomerID])",
         "REMOVEFILTERS('Retail Sales'[Country])",
+        "measure 'Total Sales Card'",
+        "measure 'Total Orders Card'",
+        "measure 'Total Customers Card'",
+        "measure 'Total Products Card'",
+        "measure 'Average Order Value Card'",
+        "measure 'Sales (M)'",
     ]:
         assert required_term in model, f"Missing semantic-model rule: {required_term}"
+
+    assert "#2F7F8F" in public_text, "Petroleum-blue report palette is missing"
+    assert "#1267E8" not in public_text, "Legacy bright-blue report colour remains"
+    for emoji in ["💰", "🛒", "👥", "📦", "📈"]:
+        assert emoji not in public_text, f"Decorative emoji remains in the report: {emoji}"
+
+    assert visual_definitions["chartProducts"]["position"]["height"] == 190
+    assert visual_definitions["chartCustomers"]["position"]["height"] == 190
+    assert visual_definitions["slicerCountry"]["position"]["height"] == 58
+    assert visual_definitions["slicerMonth"]["position"]["height"] == 58
 
     print(f"PBIP validation passed: {len(visuals)} visuals within a {page_width}×{page_height} page")
 

@@ -13,8 +13,8 @@ from validate_retail_metrics import build_analytical_population
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "images"
-BLUE = "#1267E8"
-NAVY = "#121A30"
+BLUE = "#2F7F8F"
+NAVY = "#164B57"
 CORAL = "#F08FA0"
 GRID = "#DDE4EE"
 

@@ -23,10 +23,10 @@
                       "Entity": "Retail Sales"
                     }
                   },
-                  "Property": "Total Orders"
+                  "Property": "Total Orders Card"
                 }
               },
-              "queryRef": "Retail Sales.Total Orders",
+              "queryRef": "Retail Sales.Total Orders Card",
               "nativeQueryRef": "Total Orders"
             }
           ]

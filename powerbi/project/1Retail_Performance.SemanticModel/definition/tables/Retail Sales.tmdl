@@ -54,7 +54,38 @@ table 'Retail Sales'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	/// Total de itens vendidos
+	/// Presentation-safe sales value for KPI cards; avoids locale-dependent automatic units
+	measure 'Total Sales Card' = "£" & FORMAT([Total Sales] / 1000000, "0.00") & "M"
+		displayFolder: 01. Executive KPIs
+		lineageTag: 4bf4e34d-667a-470e-855e-6706fff4ec9e
+
+	/// Presentation-safe order count for KPI cards
+	measure 'Total Orders Card' = FORMAT([Total Orders], "#,##0")
+		displayFolder: 01. Executive KPIs
+		lineageTag: a42e34f5-35d2-4833-a8a0-3a0879425f81
+
+	/// Presentation-safe identified customer count for KPI cards
+	measure 'Total Customers Card' = FORMAT([Total Customers], "#,##0")
+		displayFolder: 01. Executive KPIs
+		lineageTag: 30f8e453-40f9-4d25-af29-50732c25c3ff
+
+	/// Presentation-safe product count for KPI cards
+	measure 'Total Products Card' = FORMAT([Total Products], "#,##0")
+		displayFolder: 01. Executive KPIs
+		lineageTag: 2efae91e-7c64-43bd-8852-46ff4c383cb0
+
+	/// Presentation-safe average order value for KPI cards
+	measure 'Average Order Value Card' = "£" & FORMAT([Average Order Value], "#,##0.00")
+		displayFolder: 01. Executive KPIs
+		lineageTag: d14130ed-458c-429b-8144-59a4ca924628
+
+	/// Sales expressed in millions for consistent chart labels across desktop locales
+	measure 'Sales (M)' = DIVIDE([Total Sales], 1000000)
+		formatString: £0.00"M"
+		displayFolder: 02. Trends
+		lineageTag: 75c6f5fe-61a9-4987-bcdc-546ae16e40d2
+
+	/// Total quantity of items sold
 	measure 'Total Quantity Sold' = SUM('Retail Sales'[Quantity])
 		formatString: #,##0
 		displayFolder: 01. Executive KPIs
