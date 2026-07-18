@@ -103,7 +103,9 @@ Filters belong in a compact strip beneath the analysis. They must remain visible
 - Do not rely on colour alone to identify the partial month.
 - Use concise English titles and consistent sentence case.
 - Keep currency in GBP across cards, axes and tooltips.
-- Avoid emoji inside KPI cards; use simple line icons only if they remain legible.
+- KPI cards use a consistent set of registered SVG line icons. Each icon sits in a
+  petroleum gradient disc with a restrained outline, preserving clarity at report scale.
+- Avoid emoji, font glyphs and mixed icon styles inside KPI cards.
 - Avoid scroll bars on the executive page.
 
 ## Final acceptance checks
