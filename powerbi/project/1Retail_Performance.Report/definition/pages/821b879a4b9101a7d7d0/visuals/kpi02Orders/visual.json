@@ -80,7 +80,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#EEF1F4'"
+                      "Value": "'#D7E7EA'"
                     }
                   }
                 }
@@ -89,7 +89,7 @@
             "radius": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "14D"
                 }
               }
             }
@@ -102,10 +102,18 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
-            }
+            },
+            "preset": { "expr": { "Literal": { "Value": "'Custom'" } } },
+            "position": { "expr": { "Literal": { "Value": "'Outer'" } } },
+            "color": { "solid": { "color": { "expr": { "Literal": { "Value": "'#164B57'" } } } } },
+            "transparency": { "expr": { "Literal": { "Value": "88D" } } },
+            "shadowSpread": { "expr": { "Literal": { "Value": "0D" } } },
+            "shadowBlur": { "expr": { "Literal": { "Value": "6D" } } },
+            "angle": { "expr": { "Literal": { "Value": "90D" } } },
+            "shadowDistance": { "expr": { "Literal": { "Value": "2D" } } }
           }
         }
       ]

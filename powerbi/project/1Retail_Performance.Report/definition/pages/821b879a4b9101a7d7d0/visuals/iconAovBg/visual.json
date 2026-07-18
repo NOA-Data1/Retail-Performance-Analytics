@@ -1,46 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "iconAovBg",
-  "position": {
-    "x": 1220,
-    "y": 114,
-    "z": 8000,
-    "height": 38,
-    "width": 38,
-    "tabOrder": 8000
-  },
+  "position": { "x": 1204, "y": 111, "z": 16000, "height": 44, "width": 44, "tabOrder": 16000 },
   "visual": {
-    "visualType": "basicShape",
+    "visualType": "image",
     "objects": {
-      "fill": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2F7F8F'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "line": [
-        {
-          "properties": {}
-        }
-      ]
-    }
+      "general": [ { "properties": { "imageUrl": { "expr": { "ResourcePackageItem": { "PackageName": "RegisteredResources", "PackageType": 1, "ItemName": "kpi-aov.svg" } } } } } ]
+    },
+    "visualContainerObjects": { "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ], "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ] },
+    "drillFilterOtherVisuals": true
   }
 }

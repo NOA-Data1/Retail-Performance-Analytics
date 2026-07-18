@@ -57,6 +57,37 @@
           "type": "BaseTheme"
         }
       ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "kpi-sales.svg",
+          "path": "kpi-sales.svg",
+          "type": "Image"
+        },
+        {
+          "name": "kpi-orders.svg",
+          "path": "kpi-orders.svg",
+          "type": "Image"
+        },
+        {
+          "name": "kpi-customers.svg",
+          "path": "kpi-customers.svg",
+          "type": "Image"
+        },
+        {
+          "name": "kpi-products.svg",
+          "path": "kpi-products.svg",
+          "type": "Image"
+        },
+        {
+          "name": "kpi-aov.svg",
+          "path": "kpi-aov.svg",
+          "type": "Image"
+        }
+      ]
     }
   ],
   "settings": {

@@ -1,46 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "iconCustomersBg",
-  "position": {
-    "x": 708,
-    "y": 114,
-    "z": 9000,
-    "height": 38,
-    "width": 38,
-    "tabOrder": 9000
-  },
+  "position": { "x": 692, "y": 111, "z": 14000, "height": 44, "width": 44, "tabOrder": 14000 },
   "visual": {
-    "visualType": "basicShape",
+    "visualType": "image",
     "objects": {
-      "fill": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "fillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2F7F8F'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "line": [
-        {
-          "properties": {}
-        }
-      ]
-    }
+      "general": [ { "properties": { "imageUrl": { "expr": { "ResourcePackageItem": { "PackageName": "RegisteredResources", "PackageType": 1, "ItemName": "kpi-customers.svg" } } } } } ]
+    },
+    "visualContainerObjects": { "background": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ], "visualHeader": [ { "properties": { "show": { "expr": { "Literal": { "Value": "false" } } } } } ] },
+    "drillFilterOtherVisuals": true
   }
 }

@@ -84,6 +84,41 @@ def main() -> None:
     for emoji in ["💰", "🛒", "👥", "📦", "📈"]:
         assert emoji not in public_text, f"Decorative emoji remains in the report: {emoji}"
 
+    report = json.loads(
+        (REPORT / "definition" / "report.json").read_text(encoding="utf-8")
+    )
+    registered = next(
+        package
+        for package in report["resourcePackages"]
+        if package["name"] == "RegisteredResources"
+    )
+    expected_icons = {
+        "kpi-sales.svg",
+        "kpi-orders.svg",
+        "kpi-customers.svg",
+        "kpi-products.svg",
+        "kpi-aov.svg",
+    }
+    registered_icons = {item["name"] for item in registered["items"]}
+    assert expected_icons <= registered_icons, "KPI icon resources are incomplete"
+    for icon in expected_icons:
+        assert (REPORT / "StaticResources" / "RegisteredResources" / icon).exists()
+
+    expected_icon_visuals = {
+        "iconSalesBg",
+        "iconOrdersBg",
+        "iconCustomersBg",
+        "iconProductsBg",
+        "iconAovBg",
+    }
+    for name in expected_icon_visuals:
+        assert visual_definitions[name]["visual"]["visualType"] == "image"
+        assert visual_definitions[name]["position"]["width"] == 44
+        assert visual_definitions[name]["position"]["height"] == 44
+    assert not any(name.endswith("Sym") for name in visual_definitions), (
+        "Legacy text-symbol icon overlays remain"
+    )
+
     assert visual_definitions["chartProducts"]["position"]["height"] == 190
     assert visual_definitions["chartCustomers"]["position"]["height"] == 190
     assert visual_definitions["slicerCountry"]["position"]["height"] == 58
