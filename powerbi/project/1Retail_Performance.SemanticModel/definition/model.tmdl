@@ -1,0 +1,19 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Retail Sales"]
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+ref table 'Retail Sales'
+ref table DateTableTemplate_c8290d74-dd6c-48b0-8d1a-be7c733c0e9f
+ref table LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8
+
+ref cultureInfo en-GB

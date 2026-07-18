@@ -1,0 +1,263 @@
+table 'Retail Sales'
+	lineageTag: d055f399-828b-47c9-803a-06c2a351e1b9
+
+	/// Sales from completed transaction lines
+	measure 'Total Sales' =
+
+			SUMX(
+			    'Retail Sales',
+			    'Retail Sales'[Quantity] * 'Retail Sales'[UnitPrice]
+			)
+		formatString: £#,##0
+		displayFolder: 01. Executive KPIs
+		lineageTag: 10e04591-ec41-46e4-9bf0-f2ef914ac3ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Distinct completed invoice numbers
+	measure 'Total Orders' =
+
+			DISTINCTCOUNT('Retail Sales'[InvoiceNo])
+		formatString: #,##0
+		displayFolder: 01. Executive KPIs
+		lineageTag: fcd62260-6285-435e-8fb7-8e0c85e83fab
+
+	/// Distinct identified customers; blank IDs are excluded
+	measure 'Total Customers' =
+
+			CALCULATE(
+			    DISTINCTCOUNT('Retail Sales'[CustomerID]),
+			    NOT ISBLANK('Retail Sales'[CustomerID])
+			)
+		formatString: #,##0
+		displayFolder: 01. Executive KPIs
+		lineageTag: 53f6c933-e450-4fbc-a70e-8f228c2dc062
+
+	/// Distinct stock codes sold
+	measure 'Total Products' =
+
+			DISTINCTCOUNT('Retail Sales'[StockCode])
+		formatString: #,##0
+		displayFolder: 01. Executive KPIs
+		lineageTag: 6d860234-1828-4d88-8aad-d0c76d9b1085
+
+	/// Average sales value per completed order
+	measure 'Average Order Value' =
+
+			DIVIDE(
+			    [Total Sales],
+			    [Total Orders]
+			)
+		formatString: £#,##0.00
+		displayFolder: 01. Executive KPIs
+		lineageTag: 10447821-c407-49d6-afc3-d00b1833faa8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Total de itens vendidos
+	measure 'Total Quantity Sold' = SUM('Retail Sales'[Quantity])
+		formatString: #,##0
+		displayFolder: 01. Executive KPIs
+		lineageTag: 761070f1-9a81-4dc7-9c2a-d1ef8bba0bbf
+
+	/// Average quantity sold per order
+	measure 'Avg Items per Order' = DIVIDE([Total Quantity Sold], [Total Orders])
+		formatString: 0.0
+		displayFolder: 01. Executive KPIs
+		lineageTag: 22880d6e-34fa-4f6a-9945-4d3af6484f64
+
+	/// Sales in the equivalent prior-year period
+	measure 'Sales LY' = CALCULATE([Total Sales], DATEADD('LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8'[Date], -1, YEAR))
+		formatString: £#,##0
+		displayFolder: 02. Trends
+		lineageTag: ba953158-b2c5-4f43-9551-944e2082c509
+
+	/// Percentage sales change against the prior-year period
+	measure 'Sales YoY %' = DIVIDE([Total Sales] - [Sales LY], [Sales LY])
+		formatString: 0.0%;-0.0%
+		displayFolder: 02. Trends
+		lineageTag: c5fe96d8-b112-4f23-ab07-110e09721d2c
+
+	/// Sales in the previous month
+	measure 'Sales PM' = CALCULATE([Total Sales], DATEADD('LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8'[Date], -1, MONTH))
+		formatString: £#,##0
+		displayFolder: 02. Trends
+		lineageTag: 5e21caa8-3795-4a81-92a7-db7b6942f2eb
+
+	/// Percentage sales change against the previous month
+	measure 'Sales MoM %' = DIVIDE([Total Sales] - [Sales PM], [Sales PM])
+		formatString: 0.0%;-0.0%
+		displayFolder: 02. Trends
+		lineageTag: c2218433-85bb-4f29-9e44-8fe07c641cbe
+
+	/// Running sales total in the selected period
+	measure 'Running Total Sales' = CALCULATE([Total Sales], FILTER(ALLSELECTED('Retail Sales'[InvoiceDate]), 'Retail Sales'[InvoiceDate] <= MAX('Retail Sales'[InvoiceDate])))
+		formatString: £#,##0
+		displayFolder: 02. Trends
+		lineageTag: fa3be062-5e97-4846-bfcd-41f18efeadc1
+
+	/// United Kingdom share of sales in the selected period
+	measure 'UK Sales %' = DIVIDE(CALCULATE([Total Sales], REMOVEFILTERS('Retail Sales'[Country]), 'Retail Sales'[Country] = "United Kingdom"), CALCULATE([Total Sales], REMOVEFILTERS('Retail Sales'[Country])))
+		formatString: 0.0%
+		displayFolder: 03. Markets
+		lineageTag: c62572d7-4c5c-48b8-badc-fab6a5b26d0d
+
+	/// Sales outside the United Kingdom
+	measure 'International Sales' = CALCULATE([Total Sales], 'Retail Sales'[Country] <> "United Kingdom")
+		formatString: £#,##0
+		displayFolder: 03. Markets
+		lineageTag: bb0ef649-9f49-4096-beec-2486daf4ff81
+
+	/// Share of identified customers with more than one order
+	measure 'Repeat Customer Rate' = VAR CustomersWithOrders = SUMMARIZE(FILTER('Retail Sales', NOT ISBLANK('Retail Sales'[CustomerID])), 'Retail Sales'[CustomerID], "Orders", DISTINCTCOUNT('Retail Sales'[InvoiceNo])) VAR RepeatCustomers = COUNTROWS(FILTER(CustomersWithOrders, [Orders] > 1)) VAR TotalIdentified = COUNTROWS(CustomersWithOrders) RETURN DIVIDE(RepeatCustomers, TotalIdentified)
+		formatString: 0.0%
+		displayFolder: 04. Customers
+		lineageTag: 97f8da46-0d1b-4e89-9b72-3c713752e896
+
+	/// Rolling 12-month sales for a smoother trend view
+	measure 'Rolling 12M Sales' = CALCULATE([Total Sales], DATESINPERIOD('LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8'[Date], MAX('LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8'[Date]), -12, MONTH))
+		formatString: £#,##0
+		displayFolder: 02. Trends
+		lineageTag: d031cfe4-cfda-4131-ada8-16e9e40db193
+
+	/// Item share of sales in the current product, customer or market context
+	measure 'Revenue Share %' = DIVIDE([Total Sales], CALCULATE([Total Sales], ALLSELECTED('Retail Sales'[Description])))
+		formatString: 0.0%
+		displayFolder: 05. ABC and Pareto
+		lineageTag: e474c29f-f4b9-41ac-a425-24cf46d73bf9
+
+	/// Product sales rank, where 1 is highest
+	measure 'Product Rank' = RANKX(ALLSELECTED('Retail Sales'[Description]), [Total Sales],, DESC)
+		formatString: #,##0
+		displayFolder: 05. ABC and Pareto
+		lineageTag: ba9992ba-f4d9-4c37-b459-4374e157e1a4
+
+	/// Cumulative sales share in product-rank order
+	measure 'Cumulative Revenue %' = VAR CurrentRank = [Product Rank] RETURN CALCULATE([Total Sales], TOPN(CurrentRank, ALLSELECTED('Retail Sales'[Description]), [Total Sales], DESC)) / CALCULATE([Total Sales], ALLSELECTED('Retail Sales'[Description]))
+		formatString: 0.0%
+		displayFolder: 05. ABC and Pareto
+		lineageTag: 35fa9625-eb28-43a1-a72a-767f9e4e93c7
+
+	/// ABC classification: A to 80%, B to 95%, and C for the remaining sales
+	measure 'ABC Class' = SWITCH(TRUE(), [Cumulative Revenue %] <= 0.8, "A", [Cumulative Revenue %] <= 0.95, "B", "C")
+		displayFolder: 05. ABC and Pareto
+		lineageTag: a1b7e275-0c3e-438c-b2b0-1359effe19aa
+
+	/// Identified customers with one order in the selected period
+	measure 'One-Time Customers' = VAR T = SUMMARIZE(FILTER('Retail Sales', NOT ISBLANK('Retail Sales'[CustomerID])), 'Retail Sales'[CustomerID], "Orders", DISTINCTCOUNT('Retail Sales'[InvoiceNo])) RETURN COUNTROWS(FILTER(T, [Orders] = 1))
+		formatString: #,##0
+		displayFolder: 04. Customers
+		lineageTag: 83c97111-623e-4408-b622-b68048a7b5c3
+
+	/// Identified customers with at least two orders in the selected period
+	measure 'Returning Customers' = [Total Customers] - [One-Time Customers]
+		formatString: #,##0
+		displayFolder: 04. Customers
+		lineageTag: 6c3b56f8-16be-4916-b4b2-1e1563f550ac
+
+	/// Dynamic report title for the selected source period
+	measure 'Dynamic Period Title' = "Retail Performance — " & FORMAT(MIN('Retail Sales'[InvoiceDate]), "MMM yyyy") & " – " & FORMAT(MAX('Retail Sales'[InvoiceDate]), "MMM yyyy")
+		displayFolder: 06. Dynamic
+		lineageTag: 33fa3472-2ef6-4f81-8fd9-1b06216761c4
+
+	/// Technical invoice key; hidden from report view
+	column InvoiceNo
+		dataType: string
+		isHidden
+		lineageTag: 619974ce-9700-4436-8796-23deb25ce68f
+		summarizeBy: none
+		sourceColumn: InvoiceNo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Technical product key; use Description in report visuals
+	column StockCode
+		dataType: string
+		isHidden
+		lineageTag: 03a8c8c6-f935-4c9e-aadd-0431e8cad89d
+		summarizeBy: none
+		sourceColumn: StockCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 4aecc188-0576-48a6-9de5-15d09db2f221
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dee3de2-de11-4fa9-afba-513f022f36f9
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 88ed50f6-0043-4606-99a0-75f9abd3eb12
+		summarizeBy: none
+		sourceColumn: InvoiceDate
+
+		variation Variation
+			isDefault
+			relationship: da0493be-1f4c-4c6f-994a-54ca0461160e
+			defaultHierarchy: LocalDateTable_5744b9f7-c059-47b8-9582-30a478ceb6f8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		lineageTag: fb74edb5-1237-4646-8aeb-5d3c6c2c7aee
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CustomerID
+		dataType: int64
+		lineageTag: 75c192b2-fb6c-448c-854b-2d04c60b914a
+		summarizeBy: count
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Country
+		dataType: string
+		lineageTag: b17b2234-6c14-428a-9d30-09dadf798312
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Retail Sales' = m
+		mode: import
+		source =
+				let
+				    SourceBinary = Web.Contents("https://raw.githubusercontent.com/Nayanearaujo/Retail-Performance-Analytics/main/data/raw/Online%20Retail.xlsx"),
+				    SourceWorkbook = Excel.Workbook(SourceBinary, null, true),
+				    OnlineRetailSheet = SourceWorkbook{[Item = "Online Retail", Kind = "Sheet"]}[Data],
+				    PromotedHeaders = Table.PromoteHeaders(OnlineRetailSheet, [PromoteAllScalars = true]),
+				    TypedColumns = Table.TransformColumnTypes(
+				        PromotedHeaders,
+				        {{"InvoiceNo", type text}, {"StockCode", type text}, {"Description", type text}, {"Quantity", Int64.Type}, {"InvoiceDate", type datetime}, {"UnitPrice", type number}, {"CustomerID", Int64.Type}, {"Country", type text}},
+				        "en-GB"
+				    ),
+				    RequiredDescriptions = Table.SelectRows(TypedColumns, each [Description] <> null),
+				    ExactDuplicatesRemoved = Table.Distinct(RequiredDescriptions),
+				    CompletedSales = Table.SelectRows(ExactDuplicatesRemoved, each [Quantity] > 0 and [UnitPrice] >= 0)
+				in
+				    CompletedSales
+
+	annotation PBI_NavigationStepName = Source
+
+	annotation PBI_ResultType = Table

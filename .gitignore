@@ -223,3 +223,7 @@ data/processed/*
 
 # Local operating-system files
 .DS_Store
+
+# Power BI local workspace and cache files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
